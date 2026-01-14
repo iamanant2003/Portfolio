@@ -27,6 +27,54 @@
         --glass: rgba(30, 30, 30, 0.7);
       }
 
+      /* Name Typing Effect */
+      .name-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+
+      .typing-name {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: rgb(255, 3, 226);
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0;
+        letter-spacing: 3px;
+        text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .typing-subtitle {
+        font-size: 2rem;
+        color: #ccc;
+        margin-bottom: 30px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .typing-cursor {
+        position: absolute;
+        right: -10px;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--primary);
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
       body {
         background-color: var(--dark);
         color: var(--light);
@@ -545,8 +593,11 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
-            <h1 class="gradient-text">AI/ML Python Developer</h1>
-            <h2>Hi, I'm <span class="gradient-text">Anant Rastogi</span></h2>
+            <div class="name-container">
+              <h2 class="typing-name" id="typed-name"></h2>
+              <div class="typing-cursor" id="typing-cursor"></div>
+            </div>
+            <h1 class="typing-subtitle" id="typed-subtitle"></h1>
             <p>
               Entry-level AI/ML engineer with strong hands-on experience in
               Python, deep learning, and LLM-powered systems. Actively building
@@ -961,7 +1012,6 @@
     </footer>
 
     <script>
-      // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
@@ -978,7 +1028,6 @@
         });
       });
 
-      // Add scroll effect to navbar
       window.addEventListener("scroll", function () {
         const header = document.querySelector("header");
         if (window.scrollY > 50) {
@@ -990,7 +1039,6 @@
         }
       });
 
-      // Add interactivity to 3D cards
       document.querySelectorAll(".card-3d").forEach((card) => {
         card.addEventListener("mousemove", function (e) {
           const rect = this.getBoundingClientRect();
@@ -1011,7 +1059,44 @@
             "perspective(1000px) rotateX(0) rotateY(0) translateY(0)";
         });
       });
+
+      const nameElement = document.getElementById("typed-name");
+      const subtitleElement = document.getElementById("typed-subtitle");
+      const cursorElement = document.getElementById("typing-cursor");
+      const line1 = "Hi, I'm Anant Rastogi";
+      const line2 = "AI/ML Python Developer";
+      let line1Index = 0;
+      let line2Index = 0;
+
+      function typeLine1() {
+        if (line1Index < line1.length) {
+          nameElement.textContent += line1.charAt(line1Index);
+          line1Index++;
+          setTimeout(typeLine1, 100);
+        } else {
+          cursorElement.style.display = "none";
+          setTimeout(() => {
+            subtitleElement.style.display = "block";
+            setTimeout(typeLine2, 500);
+          }, 500);
+        }
+      }
+
+      function typeLine2() {
+        cursorElement.style.display = "block";
+        cursorElement.style.top = "auto";
+        cursorElement.style.bottom = "0";
+
+        if (line2Index < line2.length) {
+          subtitleElement.textContent += line2.charAt(line2Index);
+          line2Index++;
+          setTimeout(typeLine2, 100);
+        }
+      }
+
+      window.addEventListener("load", () => {
+        setTimeout(typeLine1, 1000);
+      });
     </script>
   </body>
 </html>
-
