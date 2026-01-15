@@ -8,6 +8,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <!-- EmailJS Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -70,6 +72,7 @@
         100% {
           opacity: 1;
         }
+
         50% {
           opacity: 0;
         }
@@ -111,9 +114,11 @@
         0% {
           transform: translateY(0px);
         }
+
         50% {
           transform: translateY(-15px);
         }
+
         100% {
           transform: translateY(0px);
         }
@@ -137,9 +142,11 @@
         0% {
           background-position: 0% 50%;
         }
+
         50% {
           background-position: 100% 50%;
         }
+
         100% {
           background-position: 0% 50%;
         }
@@ -252,6 +259,7 @@
         0% {
           transform: rotateX(20deg) rotateY(0deg);
         }
+
         100% {
           transform: rotateX(20deg) rotateY(360deg);
         }
@@ -275,18 +283,23 @@
       .front {
         transform: translateZ(100px);
       }
+
       .back {
         transform: translateZ(-100px) rotateY(180deg);
       }
+
       .left {
         transform: translateX(-100px) rotateY(-90deg);
       }
+
       .right {
         transform: translateX(100px) rotateY(90deg);
       }
+
       .top {
         transform: translateY(-100px) rotateX(90deg);
       }
+
       .bottom {
         transform: translateY(100px) rotateX(-90deg);
       }
@@ -394,22 +407,40 @@
 
       /* Contact */
       .contact-info {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 50px;
+        margin-top: 0;
+        height: fit-content;
+      }
+
+      .contact-sections-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
         margin-top: 40px;
       }
 
-      .contact-item {
+      .contact-column {
         display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 20px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        transition: transform 0.3s;
-        min-width: 250px;
+        flex-direction: column;
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      @media (max-width: 992px) {
+        .contact-sections-container {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .contact-column {
+          width: 100%;
+        }
+      }
+
+      .contact-item {
+        padding: 15px;
+        min-width: auto;
       }
 
       .contact-item:hover {
@@ -417,9 +448,70 @@
         background: rgba(255, 255, 255, 0.1);
       }
 
+      .contact-column:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .contact-column:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Optional: Add hover effect to contact cards */
+      .contact-item {
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Optional: Style for form inputs on focus */
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+      }
+
       .contact-icon {
         font-size: 1.8rem;
         color: var(--primary);
+      }
+
+      /* Form styling adjustments */
+      #contact-form .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #contact-form form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      #contact-form textarea {
+        flex-grow: 1;
+      }
+
+      /* Contact section heading alignment */
+      #contact .section-title,
+      #contact-form .section-title {
+        text-align: center;
+        margin-bottom: 30px;
       }
 
       /* Footer */
@@ -475,6 +567,7 @@
         max-width: 100%;
         margin: 0;
       }
+
       .research-item {
         text-align: left;
         margin-bottom: 30px;
@@ -502,6 +595,7 @@
         margin-bottom: 15px;
         display: block;
       }
+
       .research-title {
         color: var(--accent);
         margin-bottom: 20px;
@@ -551,24 +645,30 @@
         .front {
           transform: translateZ(75px);
         }
+
         .back {
           transform: translateZ(-75px) rotateY(180deg);
         }
+
         .left {
           transform: translateX(-75px) rotateY(-90deg);
         }
+
         .right {
           transform: translateX(75px) rotateY(90deg);
         }
+
         .top {
           transform: translateY(-75px) rotateX(90deg);
         }
+
         .bottom {
           transform: translateY(75px) rotateX(-90deg);
         }
       }
     </style>
   </head>
+
   <body>
     <!-- Header & Navigation -->
     <header>
@@ -582,7 +682,7 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#research">Research</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact-sections">Contact</a></li>
           </ul>
         </nav>
       </div>
@@ -608,7 +708,11 @@
               <div class="contact-item card-3d">
                 <i class="fas fa-envelope contact-icon"></i>
                 <div>
-                  <p>rastogianant2003@gmail.com</p>
+                  <a
+                    href="mailto:rastogianant2003@gmail.com"
+                    style="text-decoration: none; color: white; font-size: 20px;"
+                    >rastogianant2003@gmail.com</a
+                  >
                 </div>
               </div>
               <div class="contact-item card-3d">
@@ -731,8 +835,9 @@
             <a
               href="https://github.com/iamanant2003"
               style="text-decoration: none"
-              ><h3>AI-Powered Anomaly Detection</h3></a
             >
+              <h3>AI-Powered Anomaly Detection</h3>
+            </a>
             <p>
               Developed scalable log analysis pipelines to detect system
               irregularities early, improving efficiency by up to 60%.
@@ -753,8 +858,9 @@
             <a
               href="https://github.com/iamanant2003/Cryptogram"
               style="text-decoration: none"
-              ><h3>Cryptogram - Encrypt, Decrypt & Store</h3></a
             >
+              <h3>Cryptogram - Encrypt, Decrypt & Store</h3>
+            </a>
             <p>
               Engineered a full-stack Flask application for secure file
               encryption using AES-256 and DES, with auto-expiry links, SHA-256
@@ -774,8 +880,9 @@
             <a
               href="https://github.com/iamanant2003/Cricket-Tournament-Game"
               style="text-decoration: none"
-              ><h3>Cricket Score Prediction System using ML</h3></a
             >
+              <h3>Cricket Score Prediction System using ML</h3>
+            </a>
             <p>
               Developed a Deep Learning-based IPL Score Prediction model to
               analyze historical match data and forecast scores. Improved
@@ -906,76 +1013,325 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
+    <!-- Combined Contact Sections -->
+    <section id="contact-sections">
       <div class="container">
-        <h2 class="section-title">Contact & Links</h2>
-        <div class="contact-info">
-          <a
-            href="mailto:rastogianant2003@gmail.com"
-            style="text-decoration: none"
-            class="contact-item card-3d"
-          >
-            <i class="fas fa-envelope contact-icon"></i>
-            <div>
-              <h4>Mail</h4>
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-sections-container">
+          <!-- Left Column: Contact & Links -->
+          <div class="contact-column">
+            <h3
+              class="section-title"
+              style="font-size: 2rem; margin-bottom: 30px"
+            >
+              Contact & Links
+            </h3>
+            <div class="card card-3d" style="padding: 30px; height: 100%">
+              <div class="contact-info">
+                <a
+                  href="mailto:rastogianant2003@gmail.com"
+                  style="text-decoration: none"
+                  class="contact-item card-3d"
+                >
+                  <i class="fas fa-envelope contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      Email
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">
+                      rastogianant2003@gmail.com
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href="tel:+918765199469"
+                  class="contact-item card-3d"
+                  style="text-decoration: none"
+                >
+                  <i class="fas fa-phone contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      Phone
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">
+                      +91 87651 99469
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://linkedin.com/in/anant-rastogi-641aa924a"
+                  style="text-decoration: none"
+                  target="_blank"
+                  class="contact-item card-3d"
+                >
+                  <i class="fab fa-linkedin contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      LinkedIn
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">
+                      anant-rastogi-641aa924a
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://github.com/iamanant2003"
+                  style="text-decoration: none"
+                  target="_blank"
+                  class="contact-item card-3d"
+                >
+                  <i class="fab fa-github contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      GitHub
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">iamanant2003</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://x.com/anant_ras"
+                  style="text-decoration: none"
+                  target="_blank"
+                  class="contact-item card-3d"
+                >
+                  <i class="fa-brands fa-x-twitter contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      Twitter/X
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">@anant_ras</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://medial.app/user/anant-rastogi-aa3b7ba90a70d"
+                  style="text-decoration: none"
+                  target="_blank"
+                  class="contact-item card-3d"
+                >
+                  <i class="fa-solid fa-user-tie contact-icon"></i>
+                  <div>
+                    <h4 style="color: var(--primary); margin-bottom: 5px">
+                      Medial
+                    </h4>
+                    <p style="color: #ccc; font-size: 0.9rem">anant-rastogi</p>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Social Links below contact cards -->
+              <div
+                style="
+                  margin-top: 30px;
+                  padding-top: 20px;
+                  border-top: 1px solid rgba(255, 255, 255, 0.1);
+                "
+              >
+                <h4
+                  style="
+                    color: var(--accent);
+                    margin-bottom: 15px;
+                    text-align: center;
+                  "
+                >
+                  Connect on Social Media
+                </h4>
+                <div class="social-links">
+                  <a
+                    href="https://leetcode.com/u/_iamanant_"
+                    target="_blank"
+                    title="LeetCode"
+                  >
+                    <i class="fas fa-code"></i>
+                  </a>
+                  <a
+                    href="https://medial.app/user/anant-rastogiaa3b7ba90a70d"
+                    target="_blank"
+                    title="Medial"
+                  >
+                    <i class="fas fa-globe"></i>
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/anant-rastogi-641aa924a"
+                    target="_blank"
+                    title="LinkedIn"
+                  >
+                    <i class="fab fa-linkedin"></i>
+                  </a>
+                  <a
+                    href="https://github.com/iamanant2003"
+                    target="_blank"
+                    title="GitHub"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                  <a
+                    href="https://x.com/anant_ras"
+                    target="_blank"
+                    title="Twitter/X"
+                  >
+                    <i class="fa-brands fa-x-twitter"></i>
+                  </a>
+                </div>
+              </div>
             </div>
-          </a>
-          <a
-            href="tel:+918765199469"
-            class="contact-item card-3d"
-            style="text-decoration: none"
-          >
-            <i class="fas fa-phone contact-icon"></i>
-            <div>
-              <h4>Phone</h4>
-              <p>+918765199469</p>
+          </div>
+
+          <!-- Right Column: Send Message Form -->
+          <div class="contact-column">
+            <h3
+              class="section-title"
+              style="font-size: 2rem; margin-bottom: 30px"
+            >
+              Send Message
+            </h3>
+            <div class="card card-3d" style="padding: 30px; height: 100%">
+              <form id="messageForm">
+                <div style="margin-bottom: 20px">
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 8px;
+                      color: var(--primary);
+                      font-weight: 500;
+                    "
+                    >Name:</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      background: rgba(255, 255, 255, 0.05);
+                      border: 1px solid rgba(0, 217, 255, 0.3);
+                      border-radius: 8px;
+                      color: var(--light);
+                      font-size: 1rem;
+                    "
+                  />
+                </div>
+
+                <div style="margin-bottom: 20px">
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 8px;
+                      color: var(--primary);
+                      font-weight: 500;
+                    "
+                    >Email:</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    required
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      background: rgba(255, 255, 255, 0.05);
+                      border: 1px solid rgba(0, 217, 255, 0.3);
+                      border-radius: 8px;
+                      color: var(--light);
+                      font-size: 1rem;
+                    "
+                  />
+                </div>
+
+                <div style="margin-bottom: 20px">
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 8px;
+                      color: var(--primary);
+                      font-weight: 500;
+                    "
+                    >Phone:</label
+                  >
+                  <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      background: rgba(255, 255, 255, 0.05);
+                      border: 1px solid rgba(0, 217, 255, 0.3);
+                      border-radius: 8px;
+                      color: var(--light);
+                      font-size: 1rem;
+                    "
+                  />
+                </div>
+
+                <div style="margin-bottom: 25px; flex-grow: 1">
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 8px;
+                      color: var(--primary);
+                      font-weight: 500;
+                    "
+                    >Message:</label
+                  >
+                  <textarea
+                    name="message"
+                    id="message"
+                    required
+                    rows="4"
+                    style="
+                      width: 100%;
+                      padding: 12px;
+                      background: rgba(255, 255, 255, 0.05);
+                      border: 1px solid rgba(0, 217, 255, 0.3);
+                      border-radius: 8px;
+                      color: var(--light);
+                      font-size: 1rem;
+                      resize: vertical;
+                      min-height: 120px;
+                    "
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  id="submitBtn"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      var(--primary),
+                      var(--secondary)
+                    );
+                    color: white;
+                    border: none;
+                    padding: 14px 30px;
+                    border-radius: 8px;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: transform 0.3s;
+                    display: block;
+                    width: 100%;
+                    margin-top: auto;
+                  "
+                >
+                  <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+
+                <div
+                  id="formMessage"
+                  style="margin-top: 20px; text-align: center; display: none"
+                ></div>
+              </form>
             </div>
-          </a>
-          <a
-            href="https://linkedin.com/in/anant-rastogi-641aa924a"
-            style="text-decoration: none"
-            target="_blank"
-            class="contact-item card-3d"
-          >
-            <i class="fab fa-linkedin contact-icon"></i>
-            <div>
-              <h4>LinkedIn</h4>
-            </div>
-          </a>
-          <a
-            href="https://github.com/iamanant2003"
-            style="text-decoration: none"
-            target="_blank"
-            class="contact-item card-3d"
-          >
-            <i class="fab fa-github contact-icon"></i>
-            <div>
-              <h4>GitHub</h4>
-            </div>
-          </a>
-          <a
-            href="https://x.com/anant_ras"
-            style="text-decoration: none"
-            target="_blank"
-            class="contact-item card-3d"
-          >
-            <i class="fa-brands fa-x-twitter contact-icon"></i>
-            <div>
-              <h4>X.com</h4>
-            </div>
-          </a>
-          <a
-            href="https://medial.app/user/anant-rastogi-aa3b7ba90a70d"
-            style="text-decoration: none"
-            target="_blank"
-            class="contact-item card-3d"
-          >
-            <i class="fa-solid fa-user-tie contact-icon"></i>
-            <div>
-              <h4>Medial</h4>
-            </div>
-          </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1012,6 +1368,7 @@
     </footer>
 
     <script>
+      // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
@@ -1028,6 +1385,7 @@
         });
       });
 
+      // Add scroll effect to navbar
       window.addEventListener("scroll", function () {
         const header = document.querySelector("header");
         if (window.scrollY > 50) {
@@ -1039,6 +1397,7 @@
         }
       });
 
+      // Add interactivity to 3D cards
       document.querySelectorAll(".card-3d").forEach((card) => {
         card.addEventListener("mousemove", function (e) {
           const rect = this.getBoundingClientRect();
@@ -1060,6 +1419,7 @@
         });
       });
 
+      // Typing Effect
       const nameElement = document.getElementById("typed-name");
       const subtitleElement = document.getElementById("typed-subtitle");
       const cursorElement = document.getElementById("typing-cursor");
@@ -1074,6 +1434,7 @@
           line1Index++;
           setTimeout(typeLine1, 100);
         } else {
+          // When first line is complete, move cursor to second line
           cursorElement.style.display = "none";
           setTimeout(() => {
             subtitleElement.style.display = "block";
@@ -1094,10 +1455,105 @@
         }
       }
 
+      // Start typing effect when page loads
       window.addEventListener("load", () => {
         setTimeout(typeLine1, 1000);
       });
+
+      // Initialize EmailJS with your Public Key
+      (function () {
+        emailjs.init("lIRwqKTXBDhcQiToZ"); // Replace with your EmailJS public key
+      })();
+
+      // Contact Form Submission with EmailJS
+      const messageForm = document.getElementById("messageForm");
+      const formMessage = document.getElementById("formMessage");
+      const submitBtn = document.getElementById("submitBtn");
+
+      if (messageForm) {
+        messageForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Show loading state
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Sending...';
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = "0.7";
+
+          // Hide any previous messages
+          formMessage.style.display = "none";
+
+          // Get form data
+          const templateParams = {
+            from_name: document.getElementById("name").value,
+            from_email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            message: document.getElementById("message").value,
+            to_email: "rastogianant2003@gmail.com",
+            to_name: "Anant Rastogi",
+          };
+
+          // Send email using EmailJS
+          emailjs
+            .send("service_3f4zi7w", "template_424a4nw", templateParams)
+            .then(
+              function (response) {
+                console.log("SUCCESS!", response.status, response.text);
+
+                // Show success message
+                formMessage.innerHTML = `
+                    <div style="padding: 15px; background: rgba(0, 255, 157, 0.1); border-radius: 8px; border: 1px solid var(--accent);">
+                        <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.5rem; margin-bottom: 10px;"></i>
+                        <h4 style="color: var(--accent); margin-bottom: 10px;">Message Sent Successfully!</h4>
+                        <p style="color: #ccc; margin-bottom: 5px;">Thank you for your message, <strong>${templateParams.from_name}</strong>!</p>
+                        <p style="color: #ccc; margin-bottom: 5px;">I have received your message and will respond to you at <strong>${templateParams.from_email}</strong> shortly.</p>
+                        <p style="color: var(--primary); font-size: 0.9rem; margin-top: 10px;">
+                            <i class="fas fa-envelope"></i> A confirmation email has been sent to your inbox.
+                        </p>
+                    </div>
+                `;
+                formMessage.style.display = "block";
+
+                // Reset form
+                messageForm.reset();
+
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+
+                // Auto-hide message after 8 seconds
+                setTimeout(() => {
+                  formMessage.style.display = "none";
+                }, 8000);
+              },
+              function (error) {
+                console.log("FAILED...", error);
+
+                // Show error message
+                formMessage.innerHTML = `
+                    <div style="padding: 15px; background: rgba(255, 0, 0, 0.1); border-radius: 8px; border: 1px solid red;">
+                        <i class="fas fa-exclamation-circle" style="color: red; font-size: 1.5rem; margin-bottom: 10px;"></i>
+                        <h4 style="color: red; margin-bottom: 10px;">Message Failed to Send</h4>
+                        <p style="color: #ccc;">Sorry, there was an error sending your message. Please try again.</p>
+                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px;">
+                            You can also email me directly at: <strong>rastogianant2003@gmail.com</strong>
+                        </p>
+                    </div>
+                `;
+                formMessage.style.display = "block";
+
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+                setTimeout(() => {
+                  formMessage.style.display = "none";
+                }, 5000);
+              }
+            );
+        });
+      }
     </script>
   </body>
 </html>
-
